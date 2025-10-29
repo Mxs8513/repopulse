@@ -5,7 +5,29 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-18-blue)](https://reactjs.org/)
+
 [![Deploy on Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Mxs8513/repopulse)
+
+### 🚀 [Live Demo](https://repopulse.vercel.app) • [GitHub](https://github.com/Mxs8513/repopulse) • [Report Bug](https://github.com/Mxs8518543/repopulse/issues)
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Tech Stack](#tech-stack)
+- [Quick Start](#quick-start)
+- [Environment Variables](#environment-variables)
+- [API Endpoints](#api-endpoints)
+- [Deployment](#deployment)
+- [Security](#security)
+- [Project Structure](#project-structure)
+- [Recent Updates](#recent-updates)
+- [Roadmap](#roadmap)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Overview
 
@@ -190,12 +212,58 @@ See [CHANGELOG.md](./CHANGELOG.md) for detailed version history. Latest highligh
 
 ## Roadmap
 
+### Short-term Goals
 - [ ] Add multi-repository comparison
 - [ ] Enhanced AI insights with customizable prompts
 - [ ] Export reports as PDF/JSON
+- [ ] Add dashboard screenshots to README
+- [ ] Improve mobile responsiveness
+
+### Long-term Goals
 - [ ] Webhook integration for real-time updates
 - [ ] Custom dashboard widgets
 - [ ] Support for private repositories (with authentication)
+- [ ] Team collaboration features
+- [ ] Advanced analytics and predictions
+
+## Troubleshooting
+
+### Common Issues
+
+#### Rate Limit Errors
+**Problem**: You see "API rate limit exceeded" errors.
+
+**Solution**: Set up a GitHub Personal Access Token:
+1. Go to [GitHub Settings > Developer settings > Personal access tokens](https://github.com/settings/tokens)
+2. Generate a new token with `public_repo` scope
+3. Add it to `.env.local` as `MY_GITHUB_PAT=your_token_here`
+
+This increases your rate limit from 60 requests/hour to 5,000 requests/hour.
+
+#### AI Insights Not Showing
+**Problem**: AI analysis sections show "AI explanation temporarily unavailable".
+
+**Solution**: Set up the Groq API key (free tier available):
+1. Sign up at [Groq Console](https://console.groq.com/keys)
+2. Generate an API key
+3. Add it to `.env.local` as `GROQ_API_KEY=your_key_here`
+
+The app works without AI, but insights will be enhanced with it.
+
+#### Build Errors
+**Problem**: `npm run build` fails with TypeScript errors.
+
+**Solution**: 
+1. Make sure you're using Node.js 18+
+2. Delete `node_modules` and reinstall: `rm -rf node_modules && pnpm install`
+3. Clear Next.js cache: `rm -rf .next`
+
+#### Port Already in Use
+**Problem**: `Error: Port 3000 is already in use`.
+
+**Solution**: 
+1. Kill the process: `pkill -f "next dev"`
+2. Or use a different port: `PORT=3001 pnpm dev`
 
 ## License
 
