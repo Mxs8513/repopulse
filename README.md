@@ -34,8 +34,9 @@
 RepoPulse is a modern, AI-powered GitHub analytics dashboard that provides real-time insights into repository activity, commit patterns, contributor behavior, and development trends. Built with Next.js and React, it transforms raw GitHub data into actionable intelligence for development teams.
 
 ### Dashboard Overview
+<img width="1512" height="749" alt="Screenshot 2025-10-28 at 10 22 37 PM" src="https://github.com/user-attachments/assets/ce7977f0-cf19-42d7-b561-d3896d8cebaf" />
 
-![Dashboard Overview](https://via.placeholder.com/800x500?text=RepoPulse+Dashboard+Overview)
+
 
 The main dashboard provides a comprehensive view of repository activity with:
 - **Real-time statistics**: Stars, forks, commits, and open issues displayed in interactive cards
