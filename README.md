@@ -33,6 +33,58 @@
 
 RepoPulse is a modern, AI-powered GitHub analytics dashboard that provides real-time insights into repository activity, commit patterns, contributor behavior, and development trends. Built with Next.js and React, it transforms raw GitHub data into actionable intelligence for development teams.
 
+### Dashboard Overview
+
+![Dashboard Overview](https://via.placeholder.com/800x500?text=RepoPulse+Dashboard+Overview)
+
+The main dashboard provides a comprehensive view of repository activity with:
+- **Real-time statistics**: Stars, forks, commits, and open issues displayed in interactive cards
+- **Performance charts**: Visual bar graphs showing activity trends over time
+- **Quick metrics**: Average commit size, code review time, active branches, and open PRs
+- **Weather & time widget**: Live clock with date and temperature display
+- **Notifications panel**: Real-time alerts for new commits and repository events
+
+### Repository Analysis
+
+![Repository Analysis](https://via.placeholder.com/800x500?text=Repository+Analysis)
+
+Get AI-powered insights into any GitHub repository:
+- **AI Summary**: Intelligent analysis of development focus, bug fixes, and code quality improvements
+- **Key Features**: Automatically extracted from commit history and repository stats
+- **Technology Stack**: Identifies programming languages and tools used
+- **Use Cases**: Common scenarios and applications for the repository
+- **Community Stats**: Visual representation of stars, forks, contributors, and issues
+
+### Commit History
+
+![Commit History](https://via.placeholder.com/800x500?text=Commit+History)
+
+Track every change with detailed commit information:
+- **Chronological list**: All commits displayed with messages, authors, and timestamps
+- **Commit details**: Hash, author names, dates, and file change statistics
+- **Quick view**: See additions, deletions, and files modified at a glance
+- **Direct links**: Click through to GitHub for full commit details
+
+### Activity Timeline
+
+![Activity Timeline](https://via.placeholder.com/800x500?text=Activity+Timeline)
+
+Visual timeline of repository activity:
+- **Recent commits**: Latest changes displayed chronologically
+- **Author attribution**: See who made each commit and when
+- **Change tracking**: Monitor file modifications and code updates over time
+- **Hash references**: Quick commit identification with short hashes
+
+### Insights & Trends
+
+![Insights Dashboard](https://via.placeholder.com/800x500?text=Insights+and+Trends)
+
+AI-powered analytics and team insights:
+- **Development Velocity**: Track commit frequency and activity patterns
+- **Code Quality Focus**: Analyze bug fix ratios and quality improvements
+- **Contributor Breakdown**: See top contributors with progress bars
+- **Language Distribution**: Visual breakdown of code by programming language
+
 ### Main Features
 
 - 🎯 **Dashboard Overview** (`/`) - Real-time repository statistics and activity
