@@ -53,6 +53,11 @@ RepoPulse is a modern, AI-powered GitHub analytics dashboard that provides real-
 - ✅ **Search & Filter** - Find repositories quickly with real-time search
 - ✅ **Responsive Design** - Works seamlessly on desktop and mobile
 - ✅ **GitHub Integration** - Direct links to GitHub pages for repositories, commits, and PRs
+- ✅ **Recently Opened Repos** - Quick access to last 5 viewed repositories
+- ✅ **Activity Timeline** - Visual timeline of repository events
+- ✅ **Performance Charts** - Track commit activity over time with interactive charts
+- ✅ **Language Breakdown** - See code distribution by programming language
+- ✅ **Smart Caching** - localStorage persistence for recent repositories
 
 ## Tech Stack
 
@@ -199,16 +204,34 @@ repopulse/
 └── types/                # TypeScript type definitions
 ```
 
+## Highlights
+
+### **Performance Optimizations**
+- Optimized bundle size by removing unused components (65% reduction)
+- Upgraded to Next.js 16.0 with Turbopack for faster builds
+- Fixed hydration errors and improved server/client rendering
+- Smart caching with localStorage for better UX
+- Memoized functions to prevent infinite render loops
+
+### **Bug Fixes**
+- Fixed infinite render loop in repository tracking
+- Resolved hydration mismatches between server and client
+- Improved error handling for rate limits and API failures
+- Better handling for empty states and loading indicators
+
 ## Recent Updates
 
 See [CHANGELOG.md](./CHANGELOG.md) for detailed version history. Latest highlights:
 
+- **Version 1.52.0** - Fixed hydration errors & upgraded to Next.js 16.0
+- **Version 1.48.0** - Optimized bundle size by removing unused components
 - **Version 1.36.0** - Rebranded to RepoPulse & Removed Monkey Icon
 - **Version 1.35.0** - AI Analysis enabled for Analysis page
 - **Version 1.34.0** - Repository Analysis page created
 - **Version 1.33.0** - Insights Page with AI Analysis
 - **Version 1.32.0** - Fixed Infinite Render Loop
-- **Version 1.30.0** - GitHub API integration with real data
+- **Version 1.31.0** - Recently Opened Repositories Feature
+- **Version 1.30.0** - Performance Chart connected to GitHub API
 
 ## Roadmap
 
