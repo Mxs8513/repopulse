@@ -36,6 +36,9 @@ RepoPulse is a modern, AI-powered GitHub analytics dashboard that provides real-
 ### Dashboard Overview
 <img width="1512" height="749" alt="Screenshot 2025-10-28 at 10 22 37 PM" src="https://github.com/user-attachments/assets/ce7977f0-cf19-42d7-b561-d3896d8cebaf" />
 
+<img width="1508" height="854" alt="Screenshot 2025-10-28 at 10 24 43 PM" src="https://github.com/user-attachments/assets/dcad9d3c-3fbe-42aa-9d92-dcc03e18d5c0" />
+
+
 
 
 The main dashboard provides a comprehensive view of repository activity with:
@@ -47,7 +50,10 @@ The main dashboard provides a comprehensive view of repository activity with:
 
 ### Repository Analysis
 
-![Repository Analysis](https://via.placeholder.com/800x500?text=Repository+Analysis)
+<img width="1512" height="872" alt="Screenshot 2025-10-28 at 10 25 26 PM" src="https://github.com/user-attachments/assets/4d2f2cd6-2730-473d-b825-83ae5862bdd2" />
+
+<img width="1218" height="851" alt="Screenshot 2025-10-28 at 10 26 03 PM" src="https://github.com/user-attachments/assets/d09c98a2-6be4-44ad-90ae-7e01db74f323" />
+
 
 Get AI-powered insights into any GitHub repository:
 - **AI Summary**: Intelligent analysis of development focus, bug fixes, and code quality improvements
@@ -57,8 +63,13 @@ Get AI-powered insights into any GitHub repository:
 - **Community Stats**: Visual representation of stars, forks, contributors, and issues
 
 ### Commit History
+<img width="1507" height="857" alt="Screenshot 2025-10-28 at 10 27 42 PM" src="https://github.com/user-attachments/assets/b8eee9fb-fdec-4ae7-b870-cccfe4af04da" />
 
-![Commit History](https://via.placeholder.com/800x500?text=Commit+History)
+
+<img width="1475" height="699" alt="Screenshot 2025-10-28 at 10 28 04 PM" src="https://github.com/user-attachments/assets/db6eca3e-1003-49c1-bd64-d92ce298ecdb" />
+
+
+
 
 Track every change with detailed commit information:
 - **Chronological list**: All commits displayed with messages, authors, and timestamps
@@ -68,7 +79,8 @@ Track every change with detailed commit information:
 
 ### Activity Timeline
 
-![Activity Timeline](https://via.placeholder.com/800x500?text=Activity+Timeline)
+
+<img width="1512" height="857" alt="Screenshot 2025-10-28 at 10 28 33 PM" src="https://github.com/user-attachments/assets/3a771304-8c10-421a-a860-cbd6f7c7ee87" />
 
 Visual timeline of repository activity:
 - **Recent commits**: Latest changes displayed chronologically
@@ -77,8 +89,9 @@ Visual timeline of repository activity:
 - **Hash references**: Quick commit identification with short hashes
 
 ### Insights & Trends
+<img width="1512" height="856" alt="Screenshot 2025-10-28 at 10 29 03 PM" src="https://github.com/user-attachments/assets/10fafd69-dd57-4ffb-b66f-8f456ceb3ee3" />
+<img width="1241" height="649" alt="Screenshot 2025-10-28 at 10 29 21 PM" src="https://github.com/user-attachments/assets/7130407f-f5f1-4cbe-a192-b3e3514af74c" />
 
-![Insights Dashboard](https://via.placeholder.com/800x500?text=Insights+and+Trends)
 
 AI-powered analytics and team insights:
 - **Development Velocity**: Track commit frequency and activity patterns
