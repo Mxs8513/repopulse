@@ -7,7 +7,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 export function useRepoData(repoPath: string | null) {
   const isAIRequest = repoPath?.includes('enableAI=true')
-  const actualRepoPath = isAIRequest ? repoPath.split('?')[0] : repoPath
+  const actualRepoPath = isAIRequest && repoPath ? repoPath.split('?')[0] : repoPath
   
   const key = actualRepoPath ? `/api/repo?repo=${encodeURIComponent(actualRepoPath)}${isAIRequest ? '&enableAI=true' : ''}` : null
   

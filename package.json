@@ -7,7 +7,8 @@
     "dev": "next dev",
     "dev:clean": "scripts/dev-clean.sh",
     "lint": "eslint .",
-    "start": "next start"
+    "start": "next start",
+    "test": "vitest run"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",
@@ -83,6 +84,7 @@
     "postcss": "^8.5",
     "tailwindcss": "^4.1.9",
     "tw-animate-css": "1.3.3",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.8"
   }
 }

@@ -1,59 +1,27 @@
 import * as React from "react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import MonkeyIcon from "@/components/icons/monkey";
-import MobileNotifications from "@/components/dashboard/notifications/mobile-notifications";
-import type { MockData } from "@/types/dashboard";
-import BellIcon from "@/components/icons/bell";
+import { Bot } from "lucide-react";
 
-interface MobileHeaderProps {
-  mockData: MockData;
-}
-
-export function MobileHeader({ mockData }: MobileHeaderProps) {
-  const unreadCount = mockData.notifications.filter((n) => !n.read).length;
-
+export function MobileHeader() {
   return (
     <div className="lg:hidden h-header-mobile sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
       <div className="flex items-center justify-between px-4 py-3">
-        {/* Left: Sidebar Menu */}
+        {/* Left: opens the sidebar navigation */}
         <SidebarTrigger />
 
-        {/* Center: Monkey Logo + Time */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-16 bg-primary rounded flex items-center justify-center">
-              <MonkeyIcon className="size-6 text-primary-foreground" />
-            </div>
+        {/* Center: RepoPulse Agent branding (matches the desktop sidebar) */}
+        <div className="flex items-center gap-2">
+          <div className="flex size-8 items-center justify-center rounded bg-sidebar-primary-foreground/10 text-sidebar-primary-foreground">
+            <Bot className="size-5" />
+          </div>
+          <div className="leading-tight">
+            <p className="text-sm font-display">RepoPulse Agent</p>
+            <p className="text-[10px] uppercase text-muted-foreground">AI Codebase Intelligence</p>
           </div>
         </div>
 
-        <Sheet>
-          {/* Right: Notifications Menu */}
-          <SheetTrigger asChild>
-            <Button variant="secondary" size="icon" className="relative">
-              {unreadCount > 0 && (
-                <Badge className="absolute border-2 border-background -top-1 -left-2 h-5 w-5 text-xs p-0 flex items-center justify-center">
-                  {unreadCount > 9 ? "9+" : unreadCount}
-                </Badge>
-              )}
-              <BellIcon className="size-4" />
-            </Button>
-          </SheetTrigger>
-
-          {/* Notifications Sheet */}
-          <SheetContent
-            closeButton={false}
-            side="right"
-            className="w-[80%] max-w-md p-0"
-          >
-            <MobileNotifications
-              initialNotifications={mockData.notifications}
-            />
-          </SheetContent>
-        </Sheet>
+        {/* Right: spacer to keep the branding centered (no fake notifications UI) */}
+        <div className="size-9" aria-hidden="true" />
       </div>
     </div>
   );

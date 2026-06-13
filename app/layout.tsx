@@ -8,10 +8,6 @@ import localFont from "next/font/local"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { MobileHeader } from "@/components/dashboard/mobile-header"
 import { DashboardSidebar } from "@/components/dashboard/sidebar"
-import mockDataJson from "@/mock.json"
-import type { MockData } from "@/types/dashboard"
-
-const mockData = mockDataJson as MockData
 
 const robotoMono = Roboto_Mono({
   variable: "--font-roboto-mono",
@@ -28,12 +24,11 @@ const isV0 = process.env["VERCEL_URL"]?.includes("vusercontent.net") ?? false
 
 export const metadata: Metadata = {
   title: {
-    template: "%s – RepoPulse",
-    default: "RepoPulse",
+    template: "%s – RepoPulse Agent",
+    default: "RepoPulse Agent",
   },
   description:
-    "Monitor commits, pull requests and repository metrics in real time with AI-powered insights.",
-    generator: 'v0.app'
+    "AI codebase intelligence with safe change planning. RepoPulse Agent indexes GitHub repositories, maps codebase structure, answers grounded code questions, plans multi-step changes, proposes diffs, and requires human approval before applying changes.",
 }
 
 export default function RootLayout({
@@ -51,7 +46,7 @@ export default function RootLayout({
           <RepositoryProvider>
             <SidebarProvider>
             {/* Mobile Header - only visible on mobile */}
-            <MobileHeader mockData={mockData} />
+            <MobileHeader />
 
             <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-gap lg:px-sides">
               <div className="hidden lg:block col-span-2 top-0 relative">

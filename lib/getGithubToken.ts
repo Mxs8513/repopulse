@@ -1,22 +1,16 @@
+// Server-side only. The token is never sent to the browser — all GitHub API
+// calls happen inside API routes via GitHubService.
+
 export function getGithubToken() {
-  const token = process.env.MY_GITHUB_PAT?.trim();
+  const token = (process.env.MY_GITHUB_PAT || process.env.GITHUB_TOKEN)?.trim()
   if (!token) {
     throw new Error(
-      "Missing MY_GITHUB_PAT. Add it to .env.local (not quotes, no spaces, single line)."
-    );
+      'Missing GitHub token. Set MY_GITHUB_PAT or GITHUB_TOKEN in .env.local (no quotes, no spaces, single line).'
+    )
   }
-  // Validate format/length (new PATs are typically >80 chars)
-  if (token.length < 80) {
-    throw new Error(
-      `MY_GITHUB_PAT looks too short (length=${token.length}). Check for spaces, quotes, or line breaks.`
-    );
+  // Leak-safe debug: length only, never the value.
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`[Token check] GitHub token present (length=${token.length})`)
   }
-  // Minimal leak-safe debug (only prefix + length)
-  if (process.env.NODE_ENV !== "production") {
-    console.log(
-      `[Token check] Using MY_GITHUB_PAT prefix=${token.slice(0, 12)}… length=${token.length}`
-    );
-  }
-  return token;
+  return token
 }
-

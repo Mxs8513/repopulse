@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Loader2, AlertCircle, Clock } from 'lucide-react'
 import { format } from 'date-fns'
+import type { Commit } from '@/components/commits/commit-card'
 
 export function TimelineView() {
   const { selectedRepo, setSelectedRepo } = useRepository()
@@ -78,7 +79,7 @@ export function TimelineView() {
           
           {data.commits && data.commits.length > 0 ? (
             <div className="space-y-4">
-              {data.commits.map((commit, index) => (
+              {data.commits.map((commit: Commit, index: number) => (
                 <Card key={index} className="p-6 hover:border-primary transition-colors">
                   <div className="flex items-start gap-4">
                     <div className="w-3 h-3 rounded-full bg-primary mt-2 flex-shrink-0" />
