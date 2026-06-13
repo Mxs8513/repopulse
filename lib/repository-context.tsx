@@ -5,27 +5,28 @@ import React, { createContext, useContext, useState, useEffect } from 'react'
 interface RepositoryContextType {
   selectedRepo: string | null
   setSelectedRepo: (repo: string | null) => void
+  /** False until the localStorage value has been loaded on the client. */
+  hydrated: boolean
 }
 
 const RepositoryContext = createContext<RepositoryContextType | undefined>(undefined)
 
 export function RepositoryProvider({ children }: { children: React.ReactNode }) {
-  // Initialize with localStorage value immediately to avoid delay
-  const [selectedRepo, setSelectedRepoState] = useState<string | null>(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('currentRepository')
-    }
-    return null
-  })
+  // The initial render must be identical on server and client, so the stored
+  // repo is loaded in an effect (after hydration) — never during render.
+  const [selectedRepo, setSelectedRepoState] = useState<string | null>(null)
+  const [hydrated, setHydrated] = useState(false)
 
-  // Listen for storage changes from other tabs/windows
   useEffect(() => {
+    setSelectedRepoState(localStorage.getItem('currentRepository'))
+    setHydrated(true)
+
+    // Listen for storage changes from other tabs/windows
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'currentRepository') {
         setSelectedRepoState(e.newValue)
       }
     }
-    
     window.addEventListener('storage', handleStorageChange)
     return () => window.removeEventListener('storage', handleStorageChange)
   }, [])
@@ -40,7 +41,7 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
   }
 
   return (
-    <RepositoryContext.Provider value={{ selectedRepo, setSelectedRepo }}>
+    <RepositoryContext.Provider value={{ selectedRepo, setSelectedRepo, hydrated }}>
       {children}
     </RepositoryContext.Provider>
   )
@@ -53,4 +54,3 @@ export function useRepository() {
   }
   return context
 }
-

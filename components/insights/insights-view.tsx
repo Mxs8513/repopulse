@@ -12,6 +12,7 @@ import { Loader2, AlertCircle } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { AnalyticsMetaBar } from '@/components/agent/analytics-meta-bar'
 
 export function InsightsView() {
   const { selectedRepo, setSelectedRepo } = useRepository()
@@ -76,7 +77,8 @@ export function InsightsView() {
 
       {data && !isLoading && (
         <div className="space-y-6">
-          <InsightsSummary 
+          <AnalyticsMetaBar meta={data.ai?.meta} />
+          <InsightsSummary
             summary={data.ai?.summary || 'No summary available'} 
             repoName={data.repository.fullName}
           />

@@ -1,16 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { GitHubService } from '@/lib/github-service'
-import { AIService } from '@/lib/ai-service'
+import { generateRepoAnalytics, analyzeTrends } from '@/lib/ai-service'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
   try {
-    // Debug: Log token length in API route
-    const token = process.env.GITHUB_TOKEN
-    console.log('[API Route] GitHub token length:', token?.length)
-    console.log('[API Route] Token preview:', token?.substring(0, 20))
-    
     const searchParams = request.nextUrl.searchParams
     const repoPath = searchParams.get('repo')
 
@@ -38,7 +33,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Fetch contributors with error handling
-    let contributors = []
+    let contributors: Awaited<ReturnType<typeof GitHubService.getContributors>> = []
     try {
       contributors = await GitHubService.getContributors(owner, repo, 5)
     } catch (error) {
@@ -62,47 +57,20 @@ export async function GET(request: NextRequest) {
       reviewTime,
     }
 
-    // Debug: Log all fetched data to verify mapping
-    console.log('[API] Repository Data:', {
-      name: repoData.name,
-      fullName: repoData.fullName,
-      stars: repoData.stars,
-      forks: repoData.forks,
-      openIssues: repoData.openIssues,
-    })
-    console.log('[API] Stats Data:', {
-      commits: commits.length,
-      branches,
-      openPRs,
-      avgCommitSize,
-      reviewTime,
-      contributors: contributors.length,
-    })
-
     const enableAI = searchParams.get('enableAI') === 'true'
-    
+
     let aiResults
     if (enableAI) {
-      try {
-        const [summary, insights, trends] = await Promise.all([
-          AIService.generateRepoSummary(commits, repoData.fullName),
-          AIService.generateInsights(commits, repoData.fullName),
-          AIService.analyzeTrends(commits, repoData.fullName),
-        ])
-        aiResults = { summary, insights, trends }
-      } catch (aiError) {
-        console.error('[API] AI analysis failed:', aiError)
-        aiResults = {
-          summary: 'AI analysis temporarily unavailable',
-          insights: ['AI analysis unavailable', 'Development activity detected', 'Multiple contributors working', 'Regular commit frequency'],
-          trends: 'Development trends analysis unavailable'
-        }
-      }
+      // Same provider chain, budget guard, and cache as Ask Repo / Planner.
+      // generateRepoAnalytics degrades to the mock provider internally, so
+      // this never throws for provider problems — meta explains the outcome.
+      aiResults = await generateRepoAnalytics(repoData.fullName, commits)
     } else {
       aiResults = {
         summary: 'AI analysis available on the Analysis page',
         insights: [],
-        trends: 'AI trend analysis available on the Analysis page'
+        trends: analyzeTrends(commits),
+        meta: null,
       }
     }
 

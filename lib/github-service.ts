@@ -1,5 +1,23 @@
 import { Octokit } from '@octokit/rest'
 import { getGithubToken } from './getGithubToken'
+import { isBinaryPath } from './agent/file-classifier'
+import type { RawTreeEntry } from './agent/file-classifier'
+import { fetchRepoTree } from './agent/repo-indexer'
+import type { RepoTreeOutcome, TreeClient } from './agent/repo-indexer'
+
+/** Max size of a single file we will fetch content for (100 KB). */
+export const MAX_FILE_CONTENT_BYTES = 100 * 1024
+
+/** Whether a GitHub token is configured (server-side check, value never read here). */
+export function isGithubTokenConfigured(): boolean {
+  return Boolean((process.env.MY_GITHUB_PAT || process.env.GITHUB_TOKEN)?.trim())
+}
+
+export interface FileContentResult {
+  path: string
+  content: string | null
+  skippedReason?: string
+}
 
 export interface RepoData {
   name: string
@@ -227,7 +245,7 @@ export class GitHubService {
       const mergedPRs = data.filter((pr) => pr.merged_at).slice(0, 10)
       if (mergedPRs.length === 0) return 0
       const reviewTimes = mergedPRs
-        .filter((pr) => pr.created_at && pr.merged_at)
+        .filter((pr): pr is typeof pr & { merged_at: string } => Boolean(pr.created_at && pr.merged_at))
         .map((pr) => {
           const createdAt = new Date(pr.created_at).getTime()
           const mergedAt = new Date(pr.merged_at).getTime()
@@ -244,6 +262,108 @@ export class GitHubService {
     if (commits.length === 0) return 0
     const total = commits.reduce((sum, commit) => sum + commit.stats.total, 0)
     return total / commits.length
+  }
+
+  static async getDefaultBranch(owner: string, repo: string): Promise<string> {
+    const client = this.createClient()
+    const { data } = await client.repos.get({ owner, repo })
+    return data.default_branch
+  }
+
+  /** Octokit-backed TreeClient for the testable indexing pipeline. */
+  static createTreeClient(): TreeClient {
+    const client = this.createClient()
+    return {
+      async getRepo(owner, repo) {
+        const { data } = await client.repos.get({ owner, repo })
+        return { defaultBranch: data.default_branch }
+      },
+      async getTree(owner, repo, branch) {
+        const { data } = await client.git.getTree({ owner, repo, tree_sha: branch, recursive: '1' })
+        return {
+          truncated: Boolean(data.truncated),
+          entries: (data.tree || [])
+            .filter((e) => e.path && (e.type === 'blob' || e.type === 'tree'))
+            .map((e) => ({
+              path: e.path as string,
+              type: e.type as 'blob' | 'tree',
+              size: e.size,
+            })),
+        }
+      },
+      async getDirListing(owner, repo, path) {
+        const { data } = await client.repos.getContent({ owner, repo, path })
+        if (!Array.isArray(data)) return []
+        return data.map((e) => ({
+          path: e.path,
+          type: e.type === 'dir' ? ('tree' as const) : ('blob' as const),
+          size: 'size' in e ? e.size : undefined,
+        }))
+      },
+    }
+  }
+
+  /**
+   * Fetch the repository file tree with full diagnostics: validates input,
+   * checks repo metadata first, detects rate limits / 404s / auth problems,
+   * and falls back to a partial index of important directories when the
+   * recursive tree is unavailable.
+   */
+  static async getRepoTreeDetailed(owner: string, repo: string): Promise<RepoTreeOutcome> {
+    return fetchRepoTree(this.createTreeClient(), owner, repo, isGithubTokenConfigured())
+  }
+
+  /**
+   * Fetch a single file's content with safety limits: binary files and files
+   * over MAX_FILE_CONTENT_BYTES are skipped with an explanation instead of
+   * being downloaded.
+   */
+  static async getFileContent(owner: string, repo: string, path: string): Promise<FileContentResult> {
+    if (isBinaryPath(path)) {
+      return { path, content: null, skippedReason: 'Binary file — content not retrieved' }
+    }
+    try {
+      const client = this.createClient()
+      const { data } = await client.repos.getContent({ owner, repo, path })
+      if (Array.isArray(data) || data.type !== 'file') {
+        return { path, content: null, skippedReason: 'Not a regular file' }
+      }
+      if (data.size > MAX_FILE_CONTENT_BYTES) {
+        return {
+          path,
+          content: null,
+          skippedReason: `File too large (${Math.round(data.size / 1024)} KB > ${MAX_FILE_CONTENT_BYTES / 1024} KB limit)`,
+        }
+      }
+      if (!data.content) {
+        return { path, content: null, skippedReason: 'No content returned by GitHub API' }
+      }
+      const decoded = Buffer.from(data.content, 'base64').toString('utf-8')
+      return { path, content: decoded }
+    } catch (error: any) {
+      const status = error?.status
+      return {
+        path,
+        content: null,
+        skippedReason:
+          status === 404
+            ? 'File not found in repository'
+            : status === 403
+              ? 'GitHub API rate limit or permissions error'
+              : 'Failed to fetch file content',
+      }
+    }
+  }
+
+  /** Fetch multiple file contents, bounded to the first `limit` paths. */
+  static async getFileContents(
+    owner: string,
+    repo: string,
+    paths: string[],
+    limit = 6
+  ): Promise<FileContentResult[]> {
+    const bounded = paths.slice(0, limit)
+    return Promise.all(bounded.map((p) => this.getFileContent(owner, repo, p)))
   }
 }
 

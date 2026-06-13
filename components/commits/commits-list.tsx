@@ -86,7 +86,7 @@ export function CommitsList() {
           </Card>
 
           <div className="space-y-3">
-            {commits.map((commit, index) => (
+            {commits.map((commit: Commit, index: number) => (
               <div
                 key={index}
                 onClick={() => setSelectedCommit(commit)}

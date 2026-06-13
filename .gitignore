@@ -2,9 +2,11 @@
 
 # dependencies
 /node_modules
+node_modules
 
 # next.js
 /.next/
+.next
 /out/
 
 # production
@@ -18,6 +20,8 @@ yarn-error.log*
 
 # env files
 .env*
+.env.local
+.env*.local
 
 # vercel
 .vercel
@@ -25,3 +29,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# local AI usage tracking
+.ai-usage.json
+
+# OS files
+.DS_Store
