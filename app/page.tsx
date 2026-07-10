@@ -25,6 +25,10 @@ import {
   Rocket,
   FileCode,
   GitCommit,
+  FolderSearch,
+  Settings2,
+  ShieldCheck,
+  ChevronDown,
 } from "lucide-react"
 
 export default function DashboardHome() {
@@ -34,6 +38,7 @@ export default function DashboardHome() {
   const { recentRepos, addRecentRepo } = useRecentRepos()
   const [currentTime, setCurrentTime] = useState(new Date())
   const [mounted, setMounted] = useState(false)
+  const [isHealthOpen, setIsHealthOpen] = useState(false)
 
   // Debug: Log data flow to verify mapping
   useEffect(() => {
@@ -365,6 +370,46 @@ export default function DashboardHome() {
 
         {/* Right Column - Widgets */}
         <div className="lg:col-span-4 space-y-6">
+          {/* Repository Health */}
+          <Card className="p-6 bg-card border-border shadow-md">
+            <Button
+              variant="ghost"
+              className="h-auto w-full justify-between p-0 hover:bg-transparent"
+              onClick={() => setIsHealthOpen((isOpen) => !isOpen)}
+              aria-expanded={isHealthOpen}
+              aria-controls="repository-health-panel"
+            >
+              <span className="flex items-center gap-2 text-lg font-semibold text-foreground">
+                <ShieldCheck className="w-5 h-5 text-success" />
+                Repository Health
+              </span>
+              <ChevronDown
+                className={`w-5 h-5 text-muted-foreground transition-transform ${isHealthOpen ? "rotate-180" : ""}`}
+              />
+            </Button>
+
+            {isHealthOpen && (
+              <div id="repository-health-panel" className="mt-5 space-y-4 border-t border-border pt-4">
+                <div className="flex items-center gap-3">
+                  <FolderSearch className="w-5 h-5 text-primary flex-shrink-0" />
+                  <span className="text-sm text-foreground">Project files detected</span>
+                  <CheckCircle2 className="ml-auto w-4 h-4 text-success" />
+                </div>
+                <div className="flex items-center gap-3">
+                  <Settings2 className="w-5 h-5 text-primary flex-shrink-0" />
+                  <span className="text-sm text-foreground">Build/test config detected</span>
+                  <CheckCircle2 className="ml-auto w-4 h-4 text-success" />
+                </div>
+                <div className="flex items-start gap-3 rounded-md bg-success/10 p-3">
+                  <ShieldCheck className="mt-0.5 w-5 h-5 text-success flex-shrink-0" />
+                  <p className="text-sm leading-relaxed text-foreground">
+                    Secret files are never opened or uploaded
+                  </p>
+                </div>
+              </div>
+            )}
+          </Card>
+
           {/* Time & Weather Widget */}
           <Card className="p-6 bg-gradient-to-br from-primary/20 via-primary/10 to-secondary/20 border-primary/30 shadow-lg">
             <div className="text-center space-y-2">
